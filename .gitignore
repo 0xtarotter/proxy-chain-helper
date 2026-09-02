@@ -1,0 +1,13 @@
+# Local packages and generated archives
+*.zip
+*.crx
+
+# Local/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local extension state and secrets
+.env
+*.log

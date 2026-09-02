@@ -1,0 +1,8 @@
+const $ = id => document.getElementById(id);
+const defaults = { controller:"", secret:"", timeout:3000, overlayEnabled:true, overlaySide:"right", theme:"system" };
+function message(text,error=false){$("status").textContent=text;$("status").style.color=error?"#e55563":"#31ae70";}
+function applyTheme(theme){document.documentElement.dataset.theme=theme==="system"?"":theme;}
+(async()=>{const cfg={...defaults,...(await chrome.storage.local.get(defaults))};$("controller").value=cfg.controller;$("secret").value=cfg.secret;$("timeout").value=cfg.timeout;$("overlayEnabled").checked=cfg.overlayEnabled;$("overlaySide").value=cfg.overlaySide;$("theme").value=cfg.theme;applyTheme(cfg.theme);})();
+$("theme").onchange=async()=>{const theme=$("theme").value;applyTheme(theme);await chrome.storage.local.set({theme});};
+$("save").onclick=async()=>{const controller=$("controller").value.trim().replace(/\/$/,"");try{const u=new URL(controller);if(!["http:","https:"].includes(u.protocol))throw Error();}catch{message("请输入有效的 HTTP/HTTPS 控制器地址",true);return;}await chrome.storage.local.set({controller,secret:$("secret").value,timeout:Number($("timeout").value)||3000,overlayEnabled:$("overlayEnabled").checked,overlaySide:$("overlaySide").value,theme:$("theme").value});message("配置已保存");};
+$("test").onclick=async()=>{await $("save").onclick();if(!$("status").textContent.includes("已保存"))return;message("正在连接…");const r=await chrome.runtime.sendMessage({type:"test"});if(r?.error)message(r.error,true);else message(`连接成功：${r.version?.version||"Mihomo"}，发现 ${r.proxies} 个代理`);};
