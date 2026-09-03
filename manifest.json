@@ -6,7 +6,7 @@
   "author": "0xtarotter",
   "homepage_url": "https://tarotter.com",
   "permissions": ["storage", "activeTab", "tabs", "scripting"],
-  "host_permissions": ["http://*/*", "https://*/*", "https://flagcdn.com/*", "https://ipwho.is/*"],
+  "host_permissions": ["http://*/*", "https://*/*", "https://flagcdn.com/*", "https://ipwho.is/*", "https://ipapi.co/*"],
   "action": {
     "default_title": "代理链助手",
     "default_popup": "popup.html"
