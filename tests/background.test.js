@@ -339,5 +339,5 @@ test("falls back to the default icon and never uses a globe badge for unknown co
   );
   const icon = harness.actionCalls.find((call) => call.method === "setIcon");
   assert.equal(badge.details.text, "?");
-  assert.equal(icon.details.path[16], "icons/icon16.svg");
+  assert.equal(icon.details.path, "icons/icon.png");
 });

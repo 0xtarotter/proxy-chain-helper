@@ -1,6 +1,6 @@
 {
   "name": "proxy-chain-helper",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "private": true,
   "type": "module",
   "scripts": {

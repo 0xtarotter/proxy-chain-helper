@@ -13,10 +13,7 @@ const tabSiteDelays = new Map(),
 const CACHE_TTL = 300000;
 const INSPECT_CACHE_TTL = 2000;
 const flagIconCache = new Map();
-const DEFAULT_ACTION_ICON = {
-  16: "icons/icon16.svg",
-  32: "icons/icon32.svg",
-};
+const DEFAULT_ACTION_ICON = "icons/icon.png";
 function cached(map, key) {
   const x = map.get(key);
   if (!x) return { hit: false, value: null };
