@@ -37,12 +37,17 @@
         </div>
       </header>
       <section class="hero">
-        <div class="eyebrow">CURRENT DOMAIN</div>
+        <div class="hero-topline">
+          <div class="eyebrow">CURRENT DOMAIN</div>
+          <span class="scan-state"><i></i> LIVE CHECK</span>
+        </div>
         <div class="domain" id="domain">读取中…</div>
-        <div class="live-pill"><i></i> LIVE CHECK</div>
+        <div class="domain-caption">查看当前页面的真实代理路径与落地节点</div>
       </section>
       <button class="primary" id="inspect">
-        <span>检测当前域名</span><b>↗</b>
+        <span class="button-copy"
+          ><i class="button-icon">⌁</i><span>检测当前域名</span></span
+        ><b>↗</b>
       </button>
       <section id="status" class="status" role="status" aria-live="polite">
         等待检测

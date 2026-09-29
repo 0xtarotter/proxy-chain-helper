@@ -10,9 +10,9 @@
     <main class="glass">
       <header>
         <div>
-          <span class="eyebrow">PROXY CHAIN ASSISTANT</span>
+          <span class="eyebrow"><i></i> PROXY CHAIN ASSISTANT</span>
           <h1>代理链助手设置</h1>
-          <p>连接你的 Mihomo / OpenClash External Controller</p>
+          <p>为当前浏览器建立安全、可观测的 Mihomo 控制器连接。</p>
         </div>
         <select id="theme">
           <option value="system">跟随系统</option>
@@ -21,7 +21,13 @@
         </select>
       </header>
       <section class="card">
-        <h2>控制器</h2>
+        <div class="section-heading">
+          <div>
+            <span>CONNECTION</span>
+            <h2>控制器连接</h2>
+          </div>
+          <em>LOCAL ONLY</em>
+        </div>
         <div class="grid">
           <label class="wide"
             >控制器地址<input
@@ -53,7 +59,7 @@
         </div>
         <label class="switch"
           ><input id="overlayEnabled" type="checkbox" checked /><span></span
-          >在网页显示国旗、代理链和延迟</label
+          >在网页显示代理链和延迟</label
         >
         <div class="buttons">
           <button id="save">保存配置</button
@@ -62,7 +68,12 @@
         <p id="status" role="status" aria-live="polite"></p>
       </section>
       <section class="card compact">
-        <h2>OpenClash 配置示例</h2>
+        <div class="section-heading">
+          <div>
+            <span>QUICK REFERENCE</span>
+            <h2>OpenClash 配置示例</h2>
+          </div>
+        </div>
         <pre>
 external-controller: 0.0.0.0:9090
 secret: your-secret</pre>

@@ -1,37 +1,43 @@
 :root {
   color-scheme: light dark;
   --bg: #f4f7fb;
-  --surface: rgba(255, 255, 255, 0.82);
-  --strong: rgba(255, 255, 255, 0.96);
+  --surface: rgba(255, 255, 255, 0.88);
+  --strong: #fff;
   --text: #172033;
   --muted: #667085;
-  --line: rgba(125, 140, 165, 0.28);
+  --line: rgba(125, 140, 165, 0.25);
   --primary: #4f46e5;
   --secondary: #7c3aed;
-  --shadow: 0 24px 70px rgba(42, 59, 100, 0.2);
+  --success: #087a55;
+  --danger: #c43245;
+  --shadow: 0 22px 60px rgba(38, 55, 96, 0.14);
 }
 :root[data-theme="dark"] {
-  --bg: #0f172a;
-  --surface: rgba(30, 41, 59, 0.78);
-  --strong: rgba(30, 41, 59, 0.96);
-  --text: #f2f5ff;
+  --bg: #0b1220;
+  --surface: rgba(22, 32, 48, 0.9);
+  --strong: #1b293d;
+  --text: #eef3ff;
   --muted: #aab6cc;
-  --line: rgba(203, 213, 225, 0.2);
-  --primary: #818cf8;
-  --secondary: #a78bfa;
-  --shadow: 0 25px 80px rgba(0, 0, 0, 0.48);
+  --line: rgba(203, 213, 225, 0.18);
+  --primary: #8b95ff;
+  --secondary: #b18aff;
+  --success: #67e8b2;
+  --danger: #ff8a9a;
+  --shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0f172a;
-    --surface: rgba(30, 41, 59, 0.78);
-    --strong: rgba(30, 41, 59, 0.96);
-    --text: #f2f5ff;
+    --bg: #0b1220;
+    --surface: rgba(22, 32, 48, 0.9);
+    --strong: #1b293d;
+    --text: #eef3ff;
     --muted: #aab6cc;
-    --line: rgba(203, 213, 225, 0.2);
-    --primary: #818cf8;
-    --secondary: #a78bfa;
-    --shadow: 0 25px 80px rgba(0, 0, 0, 0.48);
+    --line: rgba(203, 213, 225, 0.18);
+    --primary: #8b95ff;
+    --secondary: #b18aff;
+    --success: #67e8b2;
+    --danger: #ff8a9a;
+    --shadow: 0 25px 70px rgba(0, 0, 0, 0.42);
   }
 }
 * {
@@ -40,7 +46,7 @@
 body {
   min-height: 100vh;
   margin: 0;
-  padding: 36px 18px;
+  padding: 42px 18px;
   color: var(--text);
   font:
     14px Inter,
@@ -51,16 +57,15 @@ body {
   background:
     radial-gradient(
       circle at 12% 5%,
-      rgba(100, 113, 255, 0.25),
+      rgba(99, 102, 241, 0.22),
       transparent 34%
     ),
     radial-gradient(
-      circle at 90% 95%,
-      rgba(177, 91, 255, 0.2),
-      transparent 36%
+      circle at 92% 94%,
+      rgba(124, 58, 237, 0.16),
+      transparent 34%
     ),
     var(--bg);
-  background-attachment: fixed;
 }
 .glass {
   max-width: 760px;
@@ -70,41 +75,75 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 18px;
+  gap: 18px;
+  margin-bottom: 22px;
   padding: 0 4px;
+  animation: enter 0.38s ease both;
 }
 h1 {
-  font-size: 29px;
-  margin: 5px 0 7px;
-  letter-spacing: -0.8px;
+  margin: 6px 0 7px;
+  font-size: 30px;
+  letter-spacing: -1px;
 }
 header p,
 .compact p {
-  color: var(--muted);
   margin: 0;
+  color: var(--muted);
 }
-.eyebrow {
+.eyebrow,
+.section-heading span {
+  color: var(--primary);
   font-size: 10px;
   font-weight: 850;
-  letter-spacing: 1.8px;
-  color: var(--primary);
+  letter-spacing: 1.6px;
+}
+.eyebrow i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 0 4px color-mix(in srgb, currentColor 14%, transparent);
+  animation: pulse 2.2s ease-in-out infinite;
 }
 header > select {
   width: auto;
-  margin: 5px 0 0;
+  margin-top: 6px;
 }
 .card {
   margin: 16px 0;
   padding: 24px;
   border: 1px solid var(--line);
-  border-radius: 22px;
+  border-radius: 20px;
   background: var(--surface);
-  backdrop-filter: blur(25px) saturate(145%);
   box-shadow: var(--shadow);
+  animation: enter 0.42s ease both;
+}
+.card.compact {
+  animation-delay: 80ms;
+  box-shadow: none;
+}
+.section-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 h2 {
-  font-size: 15px;
-  margin: 0 0 17px;
+  margin: 4px 0 0;
+  font-size: 16px;
+}
+.section-heading em {
+  padding: 5px 8px;
+  border-radius: 999px;
+  color: var(--success);
+  background: color-mix(in srgb, var(--success) 11%, transparent);
+  font-size: 9px;
+  font-style: normal;
+  font-weight: 850;
+  letter-spacing: 0.7px;
 }
 .grid {
   display: grid;
@@ -126,24 +165,31 @@ select {
   display: block;
   width: 100%;
   margin-top: 7px;
-  padding: 11px 12px;
+  padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 11px;
   background: var(--strong);
   color: var(--text);
   font: inherit;
-  outline: 0;
-  transition: 0.2s;
+  transition:
+    border-color 0.16s ease,
+    box-shadow 0.16s ease,
+    transform 0.16s ease;
+}
+input:hover,
+select:hover {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--line));
 }
 input:focus,
 select:focus {
   border-color: var(--primary);
+  outline: 0;
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 15%, transparent);
 }
 label small {
   position: absolute;
   right: 11px;
-  bottom: 11px;
+  bottom: 12px;
   color: var(--muted);
 }
 .switch {
@@ -170,57 +216,62 @@ label small {
   background: var(--line);
   transition: 0.2s;
 }
-.switch span:after {
-  content: "";
+.switch span::after {
   position: absolute;
-  left: 3px;
   top: 3px;
+  left: 3px;
   width: 18px;
   height: 18px;
   border-radius: 50%;
   background: #fff;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  content: "";
   transition: 0.2s;
 }
 .switch input:checked + span {
   background: linear-gradient(110deg, var(--primary), var(--secondary));
 }
-.switch input:checked + span:after {
+.switch input:checked + span::after {
   transform: translateX(18px);
 }
-.switch input:focus-visible + span {
+.switch input:focus-visible + span,
+button:focus-visible,
+a:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--primary) 35%, transparent);
   outline-offset: 3px;
 }
 .buttons {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 22px;
 }
 button {
-  border: 0;
-  border-radius: 12px;
   padding: 11px 18px;
-  color: #fff;
-  font-weight: 750;
-  cursor: pointer;
+  border: 0;
+  border-radius: 11px;
   background: linear-gradient(110deg, var(--primary), var(--secondary));
-  box-shadow: 0 8px 22px rgba(103, 95, 244, 0.27);
+  box-shadow: 0 8px 22px rgba(79, 70, 229, 0.25);
+  color: #fff;
+  font: 750 14px inherit;
+  cursor: pointer;
+  transition:
+    transform 0.16s ease,
+    filter 0.16s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.12);
 }
 button:disabled {
   opacity: 0.65;
   cursor: wait;
+  transform: none;
 }
 button.secondary {
-  color: var(--text);
-  background: var(--strong);
   border: 1px solid var(--line);
+  background: var(--strong);
   box-shadow: none;
-}
-button:focus-visible,
-a:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--primary) 35%, transparent);
-  outline-offset: 3px;
+  color: var(--text);
 }
 #status {
   min-height: 20px;
@@ -228,21 +279,18 @@ a:focus-visible {
   color: var(--muted);
 }
 #status.success {
-  color: #087a55;
+  color: var(--success);
 }
 #status.error {
-  color: #c43245;
-}
-.compact {
-  box-shadow: none;
+  color: var(--danger);
 }
 .compact pre {
   padding: 15px;
-  border-radius: 14px;
   overflow: auto;
-  color: var(--text);
-  background: color-mix(in srgb, var(--strong) 80%, transparent);
   border: 1px solid var(--line);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--strong) 82%, transparent);
+  color: var(--text);
   font:
     12px ui-monospace,
     SFMono-Regular,
@@ -254,18 +302,37 @@ a:focus-visible {
   line-height: 1.7;
 }
 footer {
-  text-align: center;
+  padding: 8px;
   color: var(--muted);
   font-size: 11px;
-  padding: 8px;
+  text-align: center;
 }
 footer a {
   color: var(--primary);
   text-decoration: none;
 }
+@keyframes enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 10%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, currentColor 17%, transparent);
+  }
+}
 @media (max-width: 620px) {
   body {
-    padding: 18px 12px;
+    padding: 22px 12px;
   }
   .grid {
     grid-template-columns: 1fr;
@@ -275,6 +342,14 @@ footer a {
   }
   header {
     flex-direction: column;
-    gap: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

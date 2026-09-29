@@ -77,7 +77,14 @@ async function run() {
     : `未找到活动连接（当前共 ${r.activeConnections} 条），按直连显示。`;
   $("status").className = r.found ? "status ok" : "status";
   const chain = r.chains?.length ? r.chains.join(" → ") : "—";
+  const routeLabel = r.found
+    ? r.closed
+      ? "连接已关闭"
+      : "代理链已命中"
+    : "未发现活动连接";
+  const routeClass = r.found && !r.closed ? "proxy" : "direct";
   $("result").innerHTML =
+    `<div class="result-head"><div><span class="section-kicker">ROUTE SNAPSHOT</span><strong>${esc(routeLabel)}</strong></div><span class="route-badge ${routeClass}">${r.found ? "PROXY" : "DIRECT"}</span></div><div class="signal-grid"><div class="signal-card"><span>节点延迟</span><strong>${r.delay == null ? "—" : `${r.delay}<small> ms</small>`}</strong></div><div class="signal-card"><span>页面响应</span><strong>${r.siteDelay == null ? "—" : `${r.siteDelay}<small> ms</small>`}</strong></div></div><div class="route-card"><span class="route-label">代理链路</span><div class="route-path">${esc(chain)}</div></div><dl>` +
     row(
       "站点 IP 归属",
       place(r.siteCountry, r.siteCountryCode, r.siteIp),
@@ -113,7 +120,8 @@ async function run() {
       true,
     ) +
     row("连接类型", `${r.network || "—"} ${r.type || ""}`) +
-    row("开始时间", r.start || "—", true);
+    row("开始时间", r.start || "—", true) +
+    `</dl>`;
   $("result").hidden = false;
 }
 const order = ["system", "light", "dark"];

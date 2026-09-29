@@ -69,6 +69,11 @@ test("renders country names, IP addresses, and node text without double escaping
   });
 
   const text = dom.window.document.querySelector("#result").textContent;
+  assert.equal(
+    dom.window.document.querySelector(".route-badge")?.textContent,
+    "PROXY",
+  );
+  assert.equal(dom.window.document.querySelectorAll(".signal-card").length, 2);
   assert.match(text, /United States/);
   assert.match(text, /93\.184\.216\.34/);
   assert.match(text, /Australia/);
