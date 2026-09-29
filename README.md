@@ -14,10 +14,14 @@ Chrome / Edge Manifest V3 扩展，用于查看当前网页经过 OpenClash / Mi
 - 支持网页右下角/左下角状态浮窗
 - 支持浅色、深色、跟随系统主题和玻璃质感界面
 - 配置仅保存在浏览器本地
+- 合并同域名并发检测，并缓存 DNS / GeoIP 查询结果
+- 优先使用 Mihomo 连接中的目标 IP，避免不必要的公共 DNS 查询
+- 私有 IP 不发送到公共 GeoIP 服务
+- 根据 `DESIGN.md` 统一显示令牌、深浅主题、焦点状态与减弱动态效果
 
 ## 工作原理
 
-扩展通过 Mihomo External Controller 查询 `/connections`、`/proxies` 和节点延迟接口，不在浏览器中重新实现 OpenClash 规则匹配。落地国家判断优先级为：节点名称、Mihomo API 节点/落地 IP + GeoIP、当前站点解析 IP + GeoIP。无法可靠判断时不会默认显示美国。
+扩展通过 Mihomo External Controller 查询 `/connections`、`/proxies` 和节点延迟接口，不在浏览器中重新实现 OpenClash 规则匹配。站点 IP 与代理节点 IP 分开处理；落地国家判断优先级为：节点名称、Mihomo API 节点地址 + GeoIP。站点归属优先使用连接中的目标 IP，仅在缺失时查询公共 DNS。无法可靠判断时不会默认显示美国。
 
 ## 配置
 
@@ -43,7 +47,16 @@ secret: your-secret
 
 ## 隐私说明
 
-控制器地址和 Secret 使用 `chrome.storage.local` 保存在本地。Mihomo API 请求只发送到用户自行配置的控制器地址。归属地判断可能请求公开 DNS/GeoIP 服务；扩展不会向第三方上传控制器地址、Secret、浏览记录或连接数据。
+控制器地址和 Secret 使用 `chrome.storage.local` 保存在本地。Mihomo API 请求只发送到用户自行配置的控制器地址。归属地判断可能请求公开 DNS/GeoIP 服务；私有 IP 会在本地过滤，不会发送给公开 GeoIP 服务。扩展不会向第三方上传控制器地址、Secret、浏览记录或完整连接数据。
+
+## 开发与验证
+
+```bash
+npm install --include=dev
+npm test
+npm run format:check
+npx @google/design.md lint DESIGN.md
+```
 
 ## 版权与许可
 

@@ -1,24 +1,31 @@
 {
   "manifest_version": 3,
   "name": "代理链助手",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "查看当前域名命中的 OpenClash 规则、代理链、落地国家与节点延迟。",
   "author": "0xtarotter",
   "homepage_url": "https://tarotter.com",
-  "permissions": ["storage", "activeTab", "tabs", "scripting"],
-  "host_permissions": ["http://*/*", "https://*/*", "https://flagcdn.com/*", "https://ipwho.is/*", "https://ipapi.co/*"],
+  "permissions": ["storage", "activeTab", "tabs"],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*",
+    "https://ipwho.is/*",
+    "https://ipapi.co/*"
+  ],
   "action": {
     "default_title": "代理链助手",
     "default_popup": "popup.html"
   },
   "options_page": "options.html",
   "background": { "service_worker": "background.js", "type": "module" },
-  "content_scripts": [{
-    "matches": ["http://*/*", "https://*/*"],
-    "js": ["content.js"],
-    "css": ["overlay.css"],
-    "run_at": "document_idle"
-  }],
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["content.js"],
+      "css": ["overlay.css"],
+      "run_at": "document_idle"
+    }
+  ],
   "icons": {
     "16": "icons/icon.png",
     "32": "icons/icon.png",

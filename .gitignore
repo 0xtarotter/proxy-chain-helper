@@ -11,3 +11,5 @@ Thumbs.db
 # Local extension state and secrets
 .env
 *.log
+node_modules/
+npm-debug.log*

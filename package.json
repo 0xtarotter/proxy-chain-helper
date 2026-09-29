@@ -1,0 +1,15 @@
+{
+  "name": "proxy-chain-helper",
+  "version": "1.5.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "jsdom": "^27.0.0",
+    "prettier": "^3.6.2"
+  }
+}
