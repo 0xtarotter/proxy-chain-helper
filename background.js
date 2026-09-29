@@ -12,6 +12,11 @@ const tabSiteDelays = new Map(),
   inspectInflight = new Map();
 const CACHE_TTL = 300000;
 const INSPECT_CACHE_TTL = 2000;
+const flagIconCache = new Map();
+const DEFAULT_ACTION_ICON = {
+  16: "icons/icon16.svg",
+  32: "icons/icon32.svg",
+};
 function cached(map, key) {
   const x = map.get(key);
   if (!x) return { hit: false, value: null };
@@ -611,10 +616,53 @@ async function inspect(value) {
   inspectInflight.set(target, pending);
   return pending;
 }
+async function flagIcon(code) {
+  const normalized = String(code || "").toUpperCase();
+  if (!ISO_CODES.includes(normalized)) return null;
+  if (!flagIconCache.has(normalized)) {
+    flagIconCache.set(
+      normalized,
+      (async () => {
+        const response = await fetch(
+          chrome.runtime.getURL(`icons/flags/${normalized}.svg`),
+        );
+        if (!response.ok) throw Error("本地国旗资源不可用");
+        const bitmap = await createImageBitmap(await response.blob());
+        const imageData = {};
+        for (const size of [16, 32]) {
+          const canvas = new OffscreenCanvas(size, size);
+          const context = canvas.getContext("2d");
+          const height = Math.round((size * 2) / 3);
+          context.clearRect(0, 0, size, size);
+          context.drawImage(
+            bitmap,
+            0,
+            Math.floor((size - height) / 2),
+            size,
+            height,
+          );
+          imageData[size] = context.getImageData(0, 0, size, size);
+        }
+        bitmap.close?.();
+        return imageData;
+      })().catch((error) => {
+        flagIconCache.delete(normalized);
+        throw error;
+      }),
+    );
+  }
+  return flagIconCache.get(normalized);
+}
 async function updateBadge(r, tabId) {
-  const direct = !r?.found || r.node === "DIRECT",
-    text = direct ? "直" : r.nodeCountryCode || "🌐",
-    scope = tabId ? { tabId } : {};
+  const direct = !r?.found || r.node === "DIRECT";
+  const code = String(r?.nodeCountryCode || "").toUpperCase();
+  const text = direct ? "直" : ISO_CODES.includes(code) ? code : "?";
+  const scope = tabId ? { tabId } : {};
+  const imageData = direct ? null : await flagIcon(code).catch(() => null);
+  await chrome.action.setIcon({
+    ...(imageData ? { imageData } : { path: DEFAULT_ACTION_ICON }),
+    ...scope,
+  });
   await chrome.action.setBadgeText({ text, ...scope });
   await chrome.action.setBadgeBackgroundColor({
     color: direct ? "#6b7280" : "#356ae6",
