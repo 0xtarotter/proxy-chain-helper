@@ -17,6 +17,16 @@ function place(country, code, ip = "") {
   const n = country || "未知";
   return `<div class="place"><div><span>${esc(n)}</span>${code ? `<span class="country-code">${esc(code)}</span>` : ""}</div>${ip ? `<small>${esc(ip)}</small>` : ""}</div>`;
 }
+function routePath(chains) {
+  const hops = Array.isArray(chains) ? chains.filter(Boolean) : [];
+  if (!hops.length) return "—";
+  return hops
+    .map(
+      (hop, index) =>
+        `<span class="route-link">${index ? '<span class="route-arrow" aria-hidden="true">→</span>' : ""}<span class="route-hop">${esc(hop)}</span></span>`,
+    )
+    .join("");
+}
 function lc(ms) {
   return ms < 100 ? "good" : ms < 250 ? "medium" : "bad";
 }
@@ -84,7 +94,7 @@ async function run() {
     : "未发现活动连接";
   const routeClass = r.found && !r.closed ? "proxy" : "direct";
   $("result").innerHTML =
-    `<div class="result-head"><div><span class="section-kicker">ROUTE SNAPSHOT</span><strong>${esc(routeLabel)}</strong></div><span class="route-badge ${routeClass}">${r.found ? "PROXY" : "DIRECT"}</span></div><div class="signal-grid"><div class="signal-card"><span>节点延迟</span><strong>${r.delay == null ? "—" : `${r.delay}<small> ms</small>`}</strong></div><div class="signal-card"><span>页面响应</span><strong>${r.siteDelay == null ? "—" : `${r.siteDelay}<small> ms</small>`}</strong></div></div><div class="route-card"><span class="route-label">代理链路</span><div class="route-path">${esc(chain)}</div></div><dl>` +
+    `<div class="result-head"><div><span class="section-kicker">ROUTE SNAPSHOT</span><strong>${esc(routeLabel)}</strong></div><span class="route-badge ${routeClass}">${r.found ? "PROXY" : "DIRECT"}</span></div><div class="signal-grid"><div class="signal-card"><span>节点延迟</span><strong>${r.delay == null ? "—" : `${r.delay}<small> ms</small>`}</strong></div><div class="signal-card"><span>页面响应</span><strong>${r.siteDelay == null ? "—" : `${r.siteDelay}<small> ms</small>`}</strong></div></div><div class="route-card"><span class="route-label">代理链路</span><div class="route-path">${routePath(r.chains)}</div></div><div class="details-heading"><span class="section-kicker">CONNECTION DETAILS</span><span>原始匹配信息</span></div><dl class="detail-list">` +
     row(
       "站点 IP 归属",
       place(r.siteCountry, r.siteCountryCode, r.siteIp),

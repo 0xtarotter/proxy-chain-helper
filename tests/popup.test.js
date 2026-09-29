@@ -74,6 +74,11 @@ test("renders country names, IP addresses, and node text without double escaping
     "PROXY",
   );
   assert.equal(dom.window.document.querySelectorAll(".signal-card").length, 2);
+  assert.equal(dom.window.document.querySelectorAll(".route-hop").length, 2);
+  assert.equal(
+    dom.window.document.querySelector("#result > .detail-list")?.tagName,
+    "DL",
+  );
   assert.match(text, /United States/);
   assert.match(text, /93\.184\.216\.34/);
   assert.match(text, /Australia/);
